@@ -13,6 +13,7 @@ import Select from '@mui/material/Select'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
+import { Box } from '@mui/material'
 
 // import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -40,15 +41,15 @@ function ModeSelect() {
         </MenuItem>
 
         <MenuItem value='dark'>
-          <div style={{ display: 'flex', alignContent: 'center', gap: '8px' }}>
+          <Box style={{ display: 'flex', alignContent: 'center', gap: '8px' }}>
             <DarkModeOutlinedIcon fontSize='small'></DarkModeOutlinedIcon>Dark
-          </div>
+          </Box>
         </MenuItem>
 
         <MenuItem value='system'>
-          <div style={{ display: 'flex', alignContent: 'center', gap: '8px' }}>
+          <Box style={{ display: 'flex', alignContent: 'center', gap: 2 }}>
             <SettingsBrightnessIcon fontSize='small'></SettingsBrightnessIcon>System
-          </div>
+          </Box>
         </MenuItem>
       </Select>
     </FormControl>

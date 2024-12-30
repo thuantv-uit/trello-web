@@ -1,12 +1,13 @@
 // import { BorderColor } from '@mui/icons-material'
 // import { colors } from '@mui/material'
+// import { WidthFull } from '@mui/icons-material'
 import { cyan, deepOrange, orange, teal } from '@mui/material/colors'
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 // Create a theme instance.
 const theme = extendTheme({
   trello: {
-    appBarHeight: '48px',
+    appBarHeight: '58px',
     boardBarHeight: '58px'
   },
   colorSchemes: {
@@ -25,6 +26,24 @@ const theme = extendTheme({
   },
 
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          '*::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px'
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#bdc3c7',
+            borderRadius: '8px'
+          },
+          '*::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#7f8c8d',
+            borderRadius: '8px'
+          }
+        }
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -38,7 +57,7 @@ const theme = extendTheme({
         root: ({ theme }) => {
           return {
             color: theme.palette.primary.main,
-            fontSize: '0.875rem'
+            fontSize: '0.8rem'
           }
         }
       }

@@ -11,6 +11,7 @@ import Templates from './Menus/Templates'
 import Profiles from './Menus/Profiles'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import ModeIcon from '@mui/icons-material/Mode'
 
 import Badge from '@mui/material/Badge'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
@@ -42,7 +43,7 @@ function AppBar() {
           <Started/>
           <Templates/>
 
-          <Button variant="outlined">Create</Button>
+          <Button variant="outlined" startIcon={<ModeIcon/>}>Create</Button>
         </Box>
       </Box>
 

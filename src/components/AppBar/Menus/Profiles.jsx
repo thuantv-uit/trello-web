@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Divider from '@mui/material/Divider'
-import Logout from '@mui/icons-material/Logout';
+import Logout from '@mui/icons-material/Logout'
 import ListItemIcon from '@mui/material/ListItemIcon'
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import Settings from '@mui/icons-material/Settings'
@@ -23,13 +23,14 @@ function Profiles() {
   return (
     <div>
       <Button
+        sx={{ color: 'white' }}
         id="basic-button-profiles"
         aria-controls={open ? 'basic-menu-workplaces' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <Avatar sx={{ width: 32, height: 32 }} />
+        <Avatar sx={{ width: 36, height: 36 }} />
       </Button>
       <Menu
         id="basic-menu-profiles"
@@ -41,10 +42,10 @@ function Profiles() {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar sx={{width: 28, height:28, mr:2 }} /> Profile
+          <Avatar sx={{ width: 28, height:28, mr:2 }} /> Profile
         </MenuItem>
         <MenuItem>
-          <Avatar sx={{width: 28, height:28, mr:2 }} /> My account
+          <Avatar sx={{ width: 28, height:28, mr:2 }} /> My account
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>

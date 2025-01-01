@@ -27,7 +27,7 @@ export const mockData = {
           },
           { _id: 'card-id-02', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 02', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-03', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 03', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
-          { _id: 'card-id-0 2', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 0 2', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
+          { _id: 'card-id-02', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 02', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-05', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 05', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-0 4', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 0 4', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-07', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 07', description: null, cover: null, memberIds: [], comments: [], attachments: [] }

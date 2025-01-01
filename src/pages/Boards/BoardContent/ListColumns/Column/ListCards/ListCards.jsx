@@ -1,29 +1,25 @@
 import { Box } from '@mui/material'
 import Card from './Card/Card'
 
-function ListCards() {
+function ListCards({ cards }) {
   return (
     <Box sx= {{
       p: '0 5px',
       m: '0 5px',
-      display: 'grid',
+      display: 'flex',
+      flexDirection: 'column',
       gap: 1,
       overflowX: 'hidden',
       overflowY: 'auto',
       maxHeight: (theme) => `calc( ${theme.trello.boardContentHeight} - 
-        ${theme.spacing(5)} - 
-        ${(theme) => theme.trello.COLUMN_HEADER_HEIGHT} -
-        ${(theme) => theme.trello.COLUMN_FOOTER_HEIGHT}
+        ${theme.spacing(5)} -
+        ${theme.trello.columnHeaderHeight} -
+        ${theme.trello.columnFooterHeight}
         )`,
-      '&::-webkit-scrollbar-thumb': { backgroundColor: '#cde1aa' },
-      '&::-webkit-scrollbar-thumb:hover': { backgroundColor: '#bfc2cf' }
+      '&::-webkit-scrollbar-thumb': { backgroundColor: '#7f8c8d' },
+      '&::-webkit-scrollbar-thumb:hover': { backgroundColor: '#bdc3c7' }
     }}>
-      <Card />
-      <Card temporaryHideMedia />
-      <Card temporaryHideMedia />
-      <Card temporaryHideMedia />
-      <Card temporaryHideMedia />
-
+      {cards?.map(card => <Card key={card._id} card={card} />)}
     </Box>
   )
 }

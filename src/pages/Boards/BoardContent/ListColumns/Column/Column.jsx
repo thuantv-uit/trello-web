@@ -22,11 +22,10 @@ import { CSS } from '@dnd-kit/utilities'
 
 
 function Column({ column }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: column._id,
-    data: { ...column }
-  })
 
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: column._id, data: { ...column }
+  })
   const dndKitColumnStyles = {
     touchAction: 'none',
     // use Translate not Transform
@@ -43,8 +42,8 @@ function Column({ column }) {
 
   return (
     <Box
-      ref={ setNodeRef }
-      style={ dndKitColumnStyles }
+      ref={setNodeRef}
+      style={dndKitColumnStyles}
       {...attributes}
       {...listeners}
       sx={{

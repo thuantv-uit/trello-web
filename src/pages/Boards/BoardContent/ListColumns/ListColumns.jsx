@@ -17,8 +17,10 @@ function ListColumns({ columns }) {
         overflowY: 'hidden',
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
-        {/* syntax: () = return {} */}
         {columns?.map(column => (<Column key={column._id} column={column} />))}
+        {/* syntax: () = return {} */}
+
+
         {/* Button add  */}
         <Box sx={{
           minWidth: '200px',

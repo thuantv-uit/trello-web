@@ -12,7 +12,7 @@ export const mockData = {
         _id: 'column-id-01',
         boardId: 'board-id-01',
         title: 'To Do Column 01',
-        cardOrderIds: ['card-id-05', 'card-id-02', 'card-id-03', 'card-id-0 2', 'card-id-01', 'card-id-0 4', 'card-id-07'],
+        cardOrderIds: ['card-id-05', 'card-id-02', 'card-id-03', 'card-id-06', 'card-id-01', 'card-id-04', 'card-id-07'],
         cards: [
           {
             _id: 'card-id-01',
@@ -27,9 +27,9 @@ export const mockData = {
           },
           { _id: 'card-id-02', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 02', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-03', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 03', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
-          { _id: 'card-id-02', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 02', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
+          { _id: 'card-id-06', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 06', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-05', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 05', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
-          { _id: 'card-id-0 4', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 0 4', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
+          { _id: 'card-id-04', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 04', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-07', boardId: 'board-id-01', columnId: 'column-id-01', title: 'Title of card 07', description: null, cover: null, memberIds: [], comments: [], attachments: [] }
         ]
       },

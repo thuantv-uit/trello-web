@@ -20,7 +20,7 @@ function ListColumns({ columns }) {
         {columns?.map(column => (<Column key={column._id} column={column} />))}
         {/* syntax: () = return {} */}
 
-
+ 
         {/* Button add  */}
         <Box sx={{
           minWidth: '200px',

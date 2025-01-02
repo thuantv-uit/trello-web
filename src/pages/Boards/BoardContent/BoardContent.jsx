@@ -10,8 +10,18 @@ import {
   MouseSensor,
   TouchSensor,
   useSensor,
-  useSensors
+  useSensors,
+  DragOverlay,
+  defaultDropAnimationSideEffects
 } from '@dnd-kit/core'
+
+import Column from './ListColumns/Column/Column'
+import Card from './ListColumns/Column/ListCards/Card/Card'
+
+const ACTIVE_DRAP_ITEM_TYPE = {
+  COLUMN: 'ACTIVE_DRAP_ITEM_TYPE_COLUMN',
+  CARD: 'ACTIVE_DRAP_ITEM_TYPE_CARD'
+}
 
 function BoadrContent({ board }) {
   // const pointerSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10 } })
@@ -21,10 +31,25 @@ function BoadrContent({ board }) {
   const mySensors = useSensors(mouseSensor, touchSensor)
 
   const [orderedColumns, setOrderedColumns] = useState( [] )
+
+  // Cùng thời điểm chỉ có một phần tử đang được kéo (Column hoặc Card)
+  const [activeDrapItemId, setActiveDrapItemId] = useState( [null] )
+  const [activeDrapItemType, setActiveDrapItemType] = useState( [null] )
+  const [activeDrapItemData, setActiveDrapItemData] = useState( [null] )
+
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
 
+  // Trigger Khi bắt đầu kéo (drag) một phần tử
+  const handleDragStart = (event) => {
+    // console.log('handleDragStart: ', event)
+    setActiveDrapItemId(event?.active?.id)
+    setActiveDrapItemType(event?.active?.data?.current?.columnId ? ACTIVE_DRAP_ITEM_TYPE.CARD : ACTIVE_DRAP_ITEM_TYPE.COLUMN)
+    setActiveDrapItemData(event?.active?.data?.current)
+  }
+
+  //Trigger khi kết thúc hành động kéo một phần tử => hành động thả (drop)
   const handleDragEnd = (event) => {
     const { active, over } = event
     // Kiểm tra nếu không tồn tại over (kéo ra nơi không có data và cick vào nó thì return để tránh lỗi)
@@ -39,10 +64,31 @@ function BoadrContent({ board }) {
       // Cập nhật lại state columns bao đầu sau khi kéo thả
       setOrderedColumns(dndOrderedColumns)
     }
+    setActiveDrapItemId(null)
+    setActiveDrapItemType(null)
+    setActiveDrapItemData(null)
+
+  }
+  // console.log('activeDrapItemId:', activeDrapItemId)
+  // console.log('activeDrapItemType:', activeDrapItemType)
+  // console.log('activeDrapItemData:', activeDrapItemData)
+
+  const customDropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5'
+        }
+      }
+    })
   }
 
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={mySensors}>
+    <DndContext
+      sensors={mySensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <Box sx={{
         bgcolor: (theme) => (theme.palette.mode == 'dark' ? '#34495e' : '#1976d2'),
         width: '100%',
@@ -50,6 +96,11 @@ function BoadrContent({ board }) {
         p: '10px 0'
       }}>
         <ListColumns columns={orderedColumns}/>
+        <DragOverlay dropAnimation={customDropAnimation}>
+          {!activeDrapItemType && null}
+          {(activeDrapItemType === ACTIVE_DRAP_ITEM_TYPE.COLUMN) && <Column column={setActiveDrapItemData} />}
+          {(activeDrapItemType === ACTIVE_DRAP_ITEM_TYPE.CARD) && <Card card={setActiveDrapItemData} />}
+        </DragOverlay>
       </Box>
     </DndContext>
   )

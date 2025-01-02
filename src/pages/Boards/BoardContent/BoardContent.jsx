@@ -18,7 +18,8 @@ import {
 
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
+import { generatePlaceholderCard } from '~/utils/formatters'
 
 // Khai báo biến Column và Card
 const ACTIVE_DRAP_ITEM_TYPE = {
@@ -41,7 +42,6 @@ function BoadrContent({ board }) {
   const [activeDrapItemData, setActiveDrapItemData] = useState( [null] )
   const [oldColumn, setOldColumn] = useState( [null] )
 
-// 
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
@@ -79,6 +79,10 @@ function BoadrContent({ board }) {
       if (nextActiveColumn) {
         // Xóa card ở column active (cũng có thể hiểu là column cũ, lúc mà kéo card ra khỏi nó để sang column khác)
         nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card._id !== activeDraggingCardId)
+        // Thêm Placeholder Card nếu Column rỗng: bị kéo hết Card đi
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)]
+        }
         // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(card => card._id)
       }
@@ -91,6 +95,8 @@ function BoadrContent({ board }) {
           ...activeDraggingCardData,
           columnId: nextOverColumns._id
         }
+        // Xóa placeCard đi nếu nó đang có phần tử mới vào
+        nextOverColumns.cards = nextOverColumns.cards.filter(card => !card.FE_PlaceholderCard)
         // Sau đó thêm card đang kéo vào overColumn theo vị trí index mới
         nextOverColumns.cards = nextOverColumns.cards.toSpliced(newCardIndex, 0, rebuild_activeDraggingCardData)
         // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu

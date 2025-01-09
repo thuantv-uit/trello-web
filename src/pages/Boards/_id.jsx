@@ -12,7 +12,7 @@ function Board() {
   const [board, setBoard] = useState(null)
   useEffect(() => {
     // Hiện tại fix cứng boardId, về sau sẽ sử dụng react-router-dom để lấy chuẩn boardId từ URL về.
-    const boardId = '677eb044d2b1fc52753d1ddd'
+    const boardId = '677f30ff91975e5c22652bdf'
     // Call API
     fetchBoardDatailsAPI(boardId).then(board => {
       setBoard(board)

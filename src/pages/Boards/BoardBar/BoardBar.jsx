@@ -11,6 +11,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import Button from '@mui/material/Button'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import { capitalizeFirstLetter } from '~/utils/formatters'
+// import { Tooltip } from 'react-tooltip'
 
 const MENU_STYLES = {
   color: 'white',
@@ -39,13 +40,14 @@ function BoardBar({ board }) {
       '&::-webkit-scrollbar-track': { m: 2 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        {/* < Tooltip title={board?.description}> */}
         <Chip
           sx={MENU_STYLES}
           icon={<DashboardIcon />}
           label={board?.title}
           clickable
-          // onClick={() => {}}
         />
+        {/* </Tooltip> */}
 
         <Chip
           sx={MENU_STYLES}

@@ -20,6 +20,8 @@ import { mapOrder } from '~/utils/sorts'
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 
+import { toast } from 'react-toastify'
+
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
@@ -50,6 +52,7 @@ function Column({ column }) {
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
   const addNewCard = () => {
     if (!newCardTitle) {
+      toast.error('Please enter Card title', { position: 'bottom-left' })
       return
     }
     // Gọi API ở đây ...

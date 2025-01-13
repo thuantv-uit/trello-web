@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-// import FaceIcon from '@mui/icons-material/Face'
 import Chip from '@mui/material/Chip'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import VpnLockIcon from '@mui/icons-material/VpnLock'
@@ -40,42 +39,35 @@ function BoardBar({ board }) {
       '&::-webkit-scrollbar-track': { m: 2 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        {/* < Tooltip title={board?.description}> */}
         <Chip
           sx={MENU_STYLES}
           icon={<DashboardIcon />}
           label={board?.title}
           clickable
         />
-        {/* </Tooltip> */}
-
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}
           label={capitalizeFirstLetter(board?.type)}
           clickable
-          // onClick={() => {}}
         />
 
         <Chip
           sx={MENU_STYLES}
           icon={<AddToDriveIcon />} label="Add to GoogleDrive"
           clickable
-          // onClick={() => {}}
         />
 
         <Chip
           sx={MENU_STYLES}
           icon={<BoltIcon />} label="Automation"
           clickable
-          // onClick={() => {}}
         />
 
         <Chip
           sx={MENU_STYLES}
           icon={<FilterListIcon />} label="Filters"
           clickable
-          // onClick={() => {}}
         />
 
       </Box>
@@ -107,11 +99,11 @@ function BoardBar({ board }) {
             }
           }}
           max={4}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-          <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-          <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+          <Avatar alt="Remy Sharp" src="https://petsastherapy.org/images/uploads/cutouts/Cats_for_website_2.0_copy_.png" />
+          <Avatar alt="Travis Howard" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUL1_1NLwMJQ7iJHbwI1Qdhph8FTrj3Y7TKw&s" />
+          <Avatar alt="Cindy Baker" src="https://wwfgifts-files.worldwildlife.org/wwfgifts/images/black-footed-cat-large-photo.jpg" />
+          <Avatar alt="Agnes Walker" src="https://cdn.royalcanin-weshare-online.io/WWkRPmYBG95Xk-RB2d3n/v1/ec2h-does-a-cat-fit-with-your-lifestyle-hero-cat" />
+          <Avatar alt="Trevor Henderson" src="https://www.cats.org.uk/media/3236/choosing-a-cat.jpg" />
         </AvatarGroup>
       </Box>
     </Box>

@@ -5,17 +5,17 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoadrContent from './BoardContent/BoardContent'
 import { mockData } from '~/apis/mock_data'
-import { fetchBoardDatailsAPI } from '~/apis/index'
+import { fetchBoardDatailsAPI } from '~/apis'
 
 function Board() {
 
   const [board, setBoard] = useState(null)
   useEffect(() => {
     // Hiện tại fix cứng boardId, về sau sẽ sử dụng react-router-dom để lấy chuẩn boardId từ URL về.
-    const boardId = '677f30ff91975e5c22652bdf'
+    const boardId = '6783ac4b67296cc4957c45fa'
     // Call API
-    fetchBoardDatailsAPI(boardId).then(board => {
-      setBoard(board)
+    fetchBoardDatailsAPI(boardId).then(boardId => {
+      setBoard(boardId)
     })
   }, [])
 
@@ -23,7 +23,7 @@ function Board() {
     <>
       <Container disableGutters maxWidth={false} sx={{ height:'100vh' }}>
         <AppBar/>
-        <BoardBar board={mockData.board} />
+        <BoardBar board={board} />
         <BoadrContent board={mockData.board} />
       </Container>
     </>

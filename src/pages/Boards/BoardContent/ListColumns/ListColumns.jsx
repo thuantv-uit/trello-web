@@ -76,7 +76,7 @@ function ListColumns({ columns }) {
               type="text"
               size="small"
               variant="outlined"
-              autoFoucus
+              autoFocus
               value={newColumnTitle}
               onChange={(e) => setNewColumnTitle(e.target.value)}
               sx={{
@@ -104,7 +104,7 @@ function ListColumns({ columns }) {
               >Add Column</Button>
               <CloseIcon
                 fontSize='small'
-                sx={{ 
+                sx={{
                   color: 'white',
                   cursor: 'pointer',
                   '&:hover': { color: (theme) => theme.palette.error.light }

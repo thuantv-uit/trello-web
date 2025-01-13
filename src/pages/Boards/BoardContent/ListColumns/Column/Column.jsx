@@ -169,7 +169,7 @@ function Column({ column }) {
                 type="text"
                 size="small"
                 variant="outlined"
-                autoFoucus
+                autoFocus
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{

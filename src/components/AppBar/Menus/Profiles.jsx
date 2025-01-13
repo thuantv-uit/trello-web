@@ -30,7 +30,10 @@ function Profiles() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <Avatar sx={{ width: 36, height: 36 }} />
+        <Avatar 
+          sx={{ width: 36, height: 36 }}
+          src='https://www.cats.org.uk/media/3236/choosing-a-cat.jpg'
+        />
       </Button>
       <Menu
         id="basic-menu-profiles"
@@ -42,10 +45,14 @@ function Profiles() {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar sx={{ width: 28, height:28, mr:2 }} /> Profile
+          <Avatar
+            src='https://www.cats.org.uk/media/3236/choosing-a-cat.jpg'
+            sx={{ width: 28, height:28, mr:2 }} /> Profile
         </MenuItem>
         <MenuItem>
-          <Avatar sx={{ width: 28, height:28, mr:2 }} /> My account
+          <Avatar
+            src='https://www.cats.org.uk/media/3236/choosing-a-cat.jpg'
+            sx={{ width: 28, height:28, mr:2 }} /> My account
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>

@@ -234,7 +234,6 @@ function BoadrContent({ board, createNewColumn, createNewCard }) {
       }
     })
   }
-
   return (
     <DndContext
       // Cảm biến
@@ -252,6 +251,7 @@ function BoadrContent({ board, createNewColumn, createNewCard }) {
         p: '10px 0'
       }}>
         <ListColumns
+          // columns={board?.columns}
           columns={orderedColumns}
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}

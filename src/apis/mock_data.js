@@ -1,5 +1,3 @@
-
-
 export const mockData = {
   board: {
     _id: 'board-id-01',

@@ -25,7 +25,7 @@ import { toast } from 'react-toastify'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
@@ -50,12 +50,21 @@ function Column({ column }) {
   const [newCardTitle, setNewCardTitle] = useState('')
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter Card title', { position: 'bottom-left' })
       return
     }
-    // Gọi API ở đây ...
+
+    // Tạo dữ liệu Card để gọi API
+    // Cọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+    // Đưa dữ liệu Board ra ngoài Redux Global Store,
+    // Thì sẽ gọi API ngay tại đây luôn chúng không phải luần lượt gọi ngược lên những component cha phía bên trên
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+    }
+    await createNewCard(newCardData)
     // Đóng trạng thái thêm Column mới & Clean Input
     toggleOpenNewCardForm()
     setNewCardTitle('')

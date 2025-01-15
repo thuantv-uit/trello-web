@@ -9,15 +9,23 @@ import { toast } from 'react-toastify'
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Please enter Column Title!')
       return
     }
+    // Taọ dữ liệu Column để gọi API
+    const newColumnData = {
+      title: newColumnTitle
+    }
+    // Cọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+    // Đưa dữ liệu Board ra ngoài Redux Global Store,
+    // Thì sẽ gọi API ngay tại đây luôn chúng không phải luần lượt gọi ngược lên những component cha phía bên trên
+    await createNewColumn(newColumnData)
     // Gọi API ở đây ...
     // Đóng trạng thái thêm Column mới & Clean Input
     toggleOpenNewColumnForm()
@@ -34,7 +42,7 @@ function ListColumns({ columns }) {
         overflowY: 'hidden',
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
-        {columns?.map(column => (<Column key={column._id} column={column} />))}
+        {columns?.map(column => (<Column key={column._id} column={column} createNewCard={createNewCard} />))}
         {/* syntax: () = return {} */}
 
         {/* Button add  */}

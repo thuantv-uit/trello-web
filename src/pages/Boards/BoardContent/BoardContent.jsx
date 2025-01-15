@@ -27,7 +27,7 @@ const ACTIVE_DRAP_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAP_ITEM_TYPE_CARD'
 }
 
-function BoadrContent({ board, createNewColumn, createNewCard }) {
+function BoadrContent({ board, createNewColumn, createNewCard, moveColumns }) {
   // const pointerSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10 } })
   // yêu cầu chuột di chuyển 10px thì mới chuyển mới kích hợp event, fix trường hợp click bị gọi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
@@ -205,7 +205,6 @@ function BoadrContent({ board, createNewColumn, createNewCard }) {
 
     // Xử lí kéo thẻ Column
     if (activeDrapItemType === ACTIVE_DRAP_ITEM_TYPE.COLUMN) {
-      // console.log('Drop column')
       // Nếu vị trí sau khác vị trí ban đầu
       if (active.id !== over.id ) {
         // Lấy vị trí cũ (từ active)
@@ -213,6 +212,9 @@ function BoadrContent({ board, createNewColumn, createNewCard }) {
         // Lấy vị trí cũ (từ active)
         const newColumn = orderedColumns.findIndex(c => c._id === over.id)
         const dndOrderedColumns = arrayMove(orderedColumns, oldColumn, newColumn)
+        // Gọi lên props function moveColumns nằm ở componet cao nhất (board/_id.jsx)
+        // Sau này sẽ đưa dữ liệu Board ra ngoài Redux GloBal Store, việc này sẽ làm Clean code hơn
+        moveColumns(dndOrderedColumns)
         // Cập nhật lại state columns bao đầu sau khi kéo thả
         setOrderedColumns(dndOrderedColumns)
       }

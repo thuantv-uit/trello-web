@@ -5,7 +5,7 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoadrContent from './BoardContent/BoardContent'
 // import { mockData } from '~/apis/mock_data'
-import { fetchBoardDatailsAPI, createNewColumnAPI, createNewCardAPI, updateBoardDatailsAPI } from '~/apis'
+import { fetchBoardDatailsAPI, createNewColumnAPI, createNewCardAPI, updateBoardDetailsAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
 
@@ -61,17 +61,17 @@ function Board() {
     setBoard(newBoard)
   }
 
-  // Function này có nhiệm vụ gọi API và xử lý khi kéo thả COlumn xong
+  // Function này có nhiệm vụ gọi API và xử lý khi kéo thả Column xong
   const moveColumns = async (dndOrderedColumns) => {
-    const dndOrderedColumnIds = dndOrderedColumns.map(c => c._id)
-
+    const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
+    // Update cho chuẩn dữ liệu state Board
     const newBoard = { ...board }
     newBoard.columns = dndOrderedColumns
-    newBoard.columnOrderIds = dndOrderedColumnIds
+    newBoard.columnOrderIds = dndOrderedColumnsIds
     setBoard(newBoard)
 
     // Gọi API update Board
-    await updateBoardDatailsAPI(newBoard._id, { columnOrderIds: newBoard.columnOrderIds })
+    await updateBoardDetailsAPI(newBoard._id, { columnOrderIds: dndOrderedColumnsIds })
   }
 
   return (

@@ -9,7 +9,7 @@ export const fetchBoardDatailsAPI = async (boardId) => {
 }
 
 // Update data
-export const updateBoardDatailsAPI = async (boardId, updateData) => {
+export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await axios.put(`${API_ROOT}/v1/boards/${boardId}`, updateData)
   return response.data
 }

@@ -27,7 +27,14 @@ const ACTIVE_DRAP_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAP_ITEM_TYPE_CARD'
 }
 
-function BoadrContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSameColumn }) {
+function BoadrContent({
+  board,
+  createNewColumn,
+  createNewCard,
+  moveColumns,
+  moveCardInTheSameColumn,
+  moveCardToDifferentColumn
+}) {
   // const pointerSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10 } })
   // yêu cầu chuột di chuyển 10px thì mới chuyển mới kích hợp event, fix trường hợp click bị gọi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
@@ -60,7 +67,8 @@ function BoadrContent({ board, createNewColumn, createNewCard, moveColumns, move
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom
   ) => {
     setOrderedColumns(prevColumns => {
       // Tìm vị trí (index) của cái overCard trong Column đích (nơi activeCard sắp được thả)
@@ -102,6 +110,11 @@ function BoadrContent({ board, createNewColumn, createNewCard, moveColumns, move
         // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu
         nextOverColumns.cardOrderIds = nextOverColumns.cards.map(card => card._id)
       }
+      // Nếu function này được gọi từ handleDragEnd nghĩa là đã kéo thả xong, lúc này mới xử lý gọi API 1 lần ở đây
+      if (triggerFrom==='handleDragEnd') {
+        moveCardToDifferentColumn(activeDraggingCardId, oldColumn._id, nextOverColumns._id, nextColumns)
+      }
+
       return nextColumns
     })
   }
@@ -147,7 +160,8 @@ function BoadrContent({ board, createNewColumn, createNewCard, moveColumns, move
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }
@@ -180,7 +194,8 @@ function BoadrContent({ board, createNewColumn, createNewCard, moveColumns, move
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       }
       // Đối với trường hợp 2 card cùng column

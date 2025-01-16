@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import { Container } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoadrContent from './BoardContent/BoardContent'
@@ -8,6 +8,7 @@ import BoadrContent from './BoardContent/BoardContent'
 import { fetchBoardDatailsAPI, createNewColumnAPI, createNewCardAPI, updateBoardDetailsAPI, updateColumnDetailsAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
+import CircularProgress from '@mui/material/CircularProgress'
 
 function Board() {
 
@@ -87,6 +88,21 @@ function Board() {
     setBoard(newBoard)
     // Gọi API update Column
     updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds })
+  }
+
+  if (!board) {
+    return (
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 2,
+        width: '100vw',
+        height: '100vw'
+      }}>
+        <CircularProgress/>
+      </Box>
+    )
   }
 
   return (

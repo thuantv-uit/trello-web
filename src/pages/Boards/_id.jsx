@@ -5,7 +5,7 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoadrContent from './BoardContent/BoardContent'
 // import { mockData } from '~/apis/mock_data'
-import { fetchBoardDatailsAPI, createNewColumnAPI, createNewCardAPI, updateBoardDetailsAPI } from '~/apis'
+import { fetchBoardDatailsAPI, createNewColumnAPI, createNewCardAPI, updateBoardDetailsAPI, updateColumnDetailsAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
 
@@ -62,7 +62,7 @@ function Board() {
   }
 
   // Function này có nhiệm vụ gọi API và xử lý khi kéo thả Column xong
-  const moveColumns = async (dndOrderedColumns) => {
+  const moveColumns = (dndOrderedColumns) => {
     const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
     // Update cho chuẩn dữ liệu state Board
     const newBoard = { ...board }
@@ -71,7 +71,22 @@ function Board() {
     setBoard(newBoard)
 
     // Gọi API update Board
-    await updateBoardDetailsAPI(newBoard._id, { columnOrderIds: dndOrderedColumnsIds })
+    updateBoardDetailsAPI(newBoard._id, { columnOrderIds: dndOrderedColumnsIds })
+  }
+
+  // Khi di chuyển Card trong cùng một Column
+  // Chỉ cần gọi API để cập nhật mảng cardOrderIds của Column chứa nó (thay đổi vị trí trong mảng)
+  const moveCardInTheSameColumn = (dndOrderedCards, dndOrderedCardIds, columnId) => {
+    // Update cho chuẩn dữ liệu state Board
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(column => column._id === columnId)
+    if (columnToUpdate) {
+      columnToUpdate.cards = dndOrderedCards
+      columnToUpdate.cardOrderIds = dndOrderedCardIds
+    }
+    setBoard(newBoard)
+    // Gọi API update Column
+    updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds })
   }
 
   return (
@@ -84,6 +99,7 @@ function Board() {
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
           moveColumns={moveColumns}
+          moveCardInTheSameColumn={moveCardInTheSameColumn}
         />
       </Container>
     </>

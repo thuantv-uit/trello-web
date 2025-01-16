@@ -27,7 +27,7 @@ const ACTIVE_DRAP_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAP_ITEM_TYPE_CARD'
 }
 
-function BoadrContent({ board, createNewColumn, createNewCard, moveColumns }) {
+function BoadrContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSameColumn }) {
   // const pointerSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10 } })
   // yêu cầu chuột di chuyển 10px thì mới chuyển mới kích hợp event, fix trường hợp click bị gọi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
@@ -191,15 +191,20 @@ function BoadrContent({ board, createNewColumn, createNewCard, moveColumns }) {
         const newCard = overColumn?.cards.findIndex(c => c._id === overCardId)
         // kéo card trong một column
         const dndOrderedCards = arrayMove(oldColumn?.cards, oldCard, newCard)
+        const dndOrderedCardIds = dndOrderedCards.map(card => card._id)
         setOrderedColumns(prevColumns => {
           const nextColumns = cloneDeep(prevColumns)
           const targetColumn = nextColumns.find(column => column._id === overColumn._id)
           // Cập nhật lại 2 giá trị mới là card và carOderIds trong cái targetColumn
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map(card => card._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
           // Trả về dữ liệu ban sau sữa chữa
           return nextColumns
         })
+        // Gọi lên props function moveCardInSameColumn nằm ở component cao nhất (board/_id.jsx)
+        // Lưu ý: về sau sẽ đưa dữ liệu board ra ngoài Redux Global Store
+        //
+        moveCardInTheSameColumn(dndOrderedCards, dndOrderedCardIds, oldColumn._id)
       }
     }
 
@@ -212,11 +217,11 @@ function BoadrContent({ board, createNewColumn, createNewCard, moveColumns }) {
         // Lấy vị trí cũ (từ active)
         const newColumn = orderedColumns.findIndex(c => c._id === over.id)
         const dndOrderedColumns = arrayMove(orderedColumns, oldColumn, newColumn)
+        // Cập nhật lại state columns bao đầu sau khi kéo thả
+        setOrderedColumns(dndOrderedColumns)
         // Gọi lên props function moveColumns nằm ở componet cao nhất (board/_id.jsx)
         // Sau này sẽ đưa dữ liệu Board ra ngoài Redux GloBal Store, việc này sẽ làm Clean code hơn
         moveColumns(dndOrderedColumns)
-        // Cập nhật lại state columns bao đầu sau khi kéo thả
-        setOrderedColumns(dndOrderedColumns)
       }
     }
     // Những dữ liệu sau khi kéo thả này phải luôn đưa về giá trị null mặc định ban đầu

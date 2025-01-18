@@ -33,7 +33,8 @@ function BoadrContent({
   createNewCard,
   moveColumns,
   moveCardInTheSameColumn,
-  moveCardToDifferentColumn
+  moveCardToDifferentColumn,
+  deleteColumnDetails
 }) {
   // const pointerSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10 } })
   // yêu cầu chuột di chuyển 10px thì mới chuyển mới kích hợp event, fix trường hợp click bị gọi event
@@ -277,6 +278,7 @@ function BoadrContent({
           columns={orderedColumns}
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
+          deleteColumnDetails={deleteColumnDetails}
         />
         {/* Cập nhập hiệu ứng và các giá trị của Column và Card sau khi kéo thả */}
         <DragOverlay dropAnimation={customDropAnimation}>

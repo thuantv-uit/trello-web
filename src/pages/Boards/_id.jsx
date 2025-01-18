@@ -5,13 +5,15 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoadrContent from './BoardContent/BoardContent'
 // import { mockData } from '~/apis/mock_data'
+import { toast } from 'react-toastify'
 import {
   fetchBoardDatailsAPI,
   createNewColumnAPI,
   createNewCardAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI,
-  moveCardToDifferentColumnAPI
+  moveCardToDifferentColumnAPI,
+  deleteColumnDetailsAPI
 } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
@@ -124,6 +126,20 @@ function Board() {
     })
   }
 
+  // Xử lý kéo thả một Column và Cards bên trong nó
+  const deleteColumnDetails = (coulumnId) => {
+    // Cập nhật lại state board
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== coulumnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== coulumnId)
+    setBoard(newBoard)
+
+    // Gọi API xử lí phía BE
+    deleteColumnDetailsAPI(coulumnId).then(res => {
+      toast.success(res?.deleteResult)
+    })
+  }
+
   // Xử lí UI lúc load Board
   if (!board) {
     return (
@@ -152,6 +168,7 @@ function Board() {
           moveColumns={moveColumns}
           moveCardInTheSameColumn={moveCardInTheSameColumn}
           moveCardToDifferentColumn={moveCardToDifferentColumn}
+          deleteColumnDetails={deleteColumnDetails}
         />
       </Container>
     </>

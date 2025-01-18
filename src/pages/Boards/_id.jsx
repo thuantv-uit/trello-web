@@ -109,16 +109,22 @@ function Board() {
     newBoard.columns = dndOrderedColumns
     newBoard.columnOrderIds = dndOrderedColumnsIds
     setBoard(newBoard)
+
     // Gọi API xử lí phía Back-end
+    // Xử lí dữ liệu trước khi trả lên Front-end (không đẩy id có chứa placehoder-card lên FE)
+    // Để giải quyết vấn đề kéo thả Card cuối cùng ra khỏi Column
+    let prevCardOederIds = dndOrderedColumns.find(c => c._id === prevColumnId)?.cardOrderIds
+    if (prevCardOederIds[0].includes('placehoder-card')) prevCardOederIds = []
     moveCardToDifferentColumnAPI({
       currentCardId,
       prevColumnId,
-      prevCardOederIds: dndOrderedColumns.find(c => c._id === prevColumnId)?.cardOrderIds,
+      prevCardOederIds,
       nextColumnId,
       nextCardOrderIds: dndOrderedColumns.find(c => c._id === nextColumnId)?.cardOrderIds
     })
   }
 
+  // Xử lí UI lúc load Board
   if (!board) {
     return (
       <Box sx={{

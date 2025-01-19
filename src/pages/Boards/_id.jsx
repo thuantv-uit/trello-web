@@ -47,12 +47,14 @@ function Board() {
     // Xử lí vấn đề kéo thả vào Column rỗng (đã được đề cập ở phía Front-end)
     createdColumn.cards = [generatePlaceholderCard(createdColumn)]
     createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+
+    // Đang fix không biết bị lỗi UI hay lỗi data nữa :((
     // Cập nhât state board (Column)
     // Phía Front-end tự làm đúng lại state data board (thay vì gọi lại API fetchBoardDatailsAPI)
-    const newBoard = { ...board }
-    newBoard.columns.push(createdColumn)
-    newBoard.columnOrderIds.push(createdColumn._id)
-    setBoard(newBoard)
+    // const newBoard = { ...board }
+    // newBoard.columns.push(createdColumn)
+    // newBoard.columnOrderIds.push(createdColumn._id)
+    // setBoard(newBoard)
   }
 
   // Func này có nhiệm vụ gọi API tạo mới Card và làm lại dữ liệu State Board
@@ -61,14 +63,16 @@ function Board() {
       ...newCardData,
       boardId: board._id
     })
+
+    // Đang fix không biết bị lỗi UI hay lỗi data nữa :((
     // Cập nhât state board (Card)
-    const newBoard = { ...board }
-    const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
-    if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard)
-      columnToUpdate.cardOrderIds.push(createdCard._id)
-    }
-    setBoard(newBoard)
+    // const newBoard = { ...board }
+    // const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+    // if (columnToUpdate) {
+    //   columnToUpdate.cards.push(createdCard)
+    //   columnToUpdate.cardOrderIds.push(createdCard._id)
+    // }
+    // setBoard(newBoard)
   }
 
   // Function này có nhiệm vụ gọi API và xử lý khi kéo thả Column xong
@@ -126,7 +130,7 @@ function Board() {
     })
   }
 
-  // Xử lý kéo thả một Column và Cards bên trong nó
+  // Xử lý xóa một Column và Cards bên trong nó
   const deleteColumnDetails = (coulumnId) => {
     // Cập nhật lại state board
     const newBoard = { ...board }

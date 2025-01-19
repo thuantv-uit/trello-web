@@ -78,7 +78,7 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
             mx: 2,
             p: 1,
             borderRadius: '6px',
-            height: 'fix-content',
+            height: 'fit-content',
             bgcolor: '#ffffff3d',
             display: 'flex',
             flexDirection: 'column',

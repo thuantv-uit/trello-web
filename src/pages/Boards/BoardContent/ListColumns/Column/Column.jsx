@@ -20,13 +20,23 @@ import { mapOrder } from '~/utils/sorts'
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 import { useConfirm } from 'material-ui-confirm'
+import { createNewCardAPI } from '~/apis'
+// import { cloneDeep } from 'lodash'
+import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { deleteColumnDetailsAPI } from '~/apis'
 
 import { toast } from 'react-toastify'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-function Column({ column, createNewCard, deleteColumnDetails }) {
+function Column({ column }) {
+
+  const dispatch = useDispatch()
+
+  const board = useSelector(selectCurrentActiveBoard)
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
@@ -58,14 +68,26 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
     }
 
     // Tạo dữ liệu Card để gọi API
-    // Cọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
-    // Đưa dữ liệu Board ra ngoài Redux Global Store,
-    // Thì sẽ gọi API ngay tại đây luôn chúng không phải luần lượt gọi ngược lên những component cha phía bên trên
     const newCardData = {
       title: newCardTitle,
       columnId: column._id
     }
-    await createNewCard(newCardData)
+    // Func này có nhiệm vụ gọi API tạo mới Card và làm lại dữ liệu State Board
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id
+    })
+
+    // Đang fix không biết bị lỗi UI hay lỗi data nữa :((
+    // Cập nhât state board (Card)
+    // const newBoard = { ...board }
+    // const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+    // if (columnToUpdate) {
+    //   columnToUpdate.cards.push(createdCard)
+    //   columnToUpdate.cardOrderIds.push(createdCard._id)
+    // }
+    // // setBoard(newBoard)
+    // dispatch(updateCurrentActiveBoard(newBoard))
     // Đóng trạng thái thêm Column mới & Clean Input
     toggleOpenNewCardForm()
     setNewCardTitle('')
@@ -83,7 +105,16 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
       allowClose: false
     })
       .then(() => {
-        deleteColumnDetails(column._id)
+        // Cập nhật lại state board
+        const newBoard = { ...board }
+        newBoard.columns = newBoard.columns.filter(c => c._id !== column._id)
+        newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== column._id)
+        // setBoard(newBoard)
+        dispatch(updateCurrentActiveBoard(newBoard))
+        // Gọi API xử lí phía BE
+        deleteColumnDetailsAPI(column._id).then(res => {
+          toast.success(res?.deleteResult)
+        })
       })
       .catch(() => {
         /* ... */

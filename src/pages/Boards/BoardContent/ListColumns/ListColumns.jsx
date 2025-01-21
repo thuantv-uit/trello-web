@@ -5,11 +5,22 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { createNewColumnAPI } from '~/apis'
+import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { useSelector } from 'react-redux'
+import { generatePlaceholderCard } from '~/utils/formatters'
 
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
+// import { cloneDeep } from 'lodash'
+// import { useDispatch } from 'react-redux'
 
-function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDetails }) {
+function ListColumns({ columns }) {
+
+  const board = useSelector(selectCurrentActiveBoard)
+  // const dispatch = useDispatch()
+
+
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
@@ -22,10 +33,28 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
     const newColumnData = {
       title: newColumnTitle
     }
-    // Cọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
-    // Đưa dữ liệu Board ra ngoài Redux Global Store,
-    // Thì sẽ gọi API ngay tại đây luôn chúng không phải luần lượt gọi ngược lên những component cha phía bên trên
-    await createNewColumn(newColumnData)
+    // Func này có nhiệm vụ gọi API tạo mới Column và làm lại dữ liệu State Board
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
+    // Xử lí vấn đề kéo thả vào Column rỗng (đã được đề cập ở phía Front-end)
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+
+    // Đang fix không biết bị lỗi UI hay lỗi data nữa :((
+    // Cập nhât state board (Column)
+    // Phía Front-end tự làm đúng lại state data board (thay vì gọi lại API fetchBoardDatailsAPI)
+    // Đoạn này sẽ dính lỗi object is not extensible bởi vì dù đã copy/clone giá trị newBoard nhưng bản chất
+    // của spread operator là Shallow Copy/Clone, nên dính phải rules Immtability trong Redux Toolkit không
+    // dùng được hàm PUSH (sửa giá trị mảng trực tiếp), cách đơn giản nhất trong trường hợp này của chúng ta là dùng
+    // tới Deep Copy/Clone toàn bộ cái bảng Board cho dễ hiểu và code ngắn gọn
+    // const newBoard = { ...board }
+    // const newBoard = cloneDeep(board)
+    // newBoard.columns.push(createdColumn)
+    // newBoard.columnOrderIds.push(createdColumn._id)
+    // setBoard(newBoard)
+    // dispatch(updateCurrentActiveBoard(newBoard))
     // Gọi API ở đây ...
     // Đóng trạng thái thêm Column mới & Clean Input
     toggleOpenNewColumnForm()
@@ -42,13 +71,9 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
         overflowY: 'hidden',
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
-        {columns?.map(column => (<Column
-          key={column._id}
-          column={column}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails}
-        />))}
-        {/* syntax: () = return {} */}
+        {columns?.map(column =>
+          <Column key={column._id} column={column}/>
+        )}
 
         {/* Button add  */}
         {!openNewColumnForm

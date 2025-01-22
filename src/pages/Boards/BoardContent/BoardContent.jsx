@@ -29,12 +29,9 @@ const ACTIVE_DRAP_ITEM_TYPE = {
 
 function BoadrContent({
   board,
-  createNewColumn,
-  createNewCard,
   moveColumns,
   moveCardInTheSameColumn,
-  moveCardToDifferentColumn,
-  deleteColumnDetails
+  moveCardToDifferentColumn
 }) {
   // const pointerSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10 } })
   // yêu cầu chuột di chuyển 10px thì mới chuyển mới kích hợp event, fix trường hợp click bị gọi event
@@ -273,13 +270,7 @@ function BoadrContent({
         height: (theme) => theme.trello.boardContentHeight,
         p: '10px 0'
       }}>
-        <ListColumns
-          // columns={board?.columns}
-          columns={orderedColumns}
-          createNewColumn={createNewColumn}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails}
-        />
+        <ListColumns columns={orderedColumns}/>
         {/* Cập nhập hiệu ứng và các giá trị của Column và Card sau khi kéo thả */}
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDrapItemType && null}

@@ -12,13 +12,13 @@ import { generatePlaceholderCard } from '~/utils/formatters'
 
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
-// import { cloneDeep } from 'lodash'
-// import { useDispatch } from 'react-redux'
+import { cloneDeep } from 'lodash'
+import { useDispatch } from 'react-redux'
 
 function ListColumns({ columns }) {
 
   const board = useSelector(selectCurrentActiveBoard)
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
@@ -49,12 +49,11 @@ function ListColumns({ columns }) {
     // của spread operator là Shallow Copy/Clone, nên dính phải rules Immtability trong Redux Toolkit không
     // dùng được hàm PUSH (sửa giá trị mảng trực tiếp), cách đơn giản nhất trong trường hợp này của chúng ta là dùng
     // tới Deep Copy/Clone toàn bộ cái bảng Board cho dễ hiểu và code ngắn gọn
-    // const newBoard = { ...board }
-    // const newBoard = cloneDeep(board)
-    // newBoard.columns.push(createdColumn)
-    // newBoard.columnOrderIds.push(createdColumn._id)
-    // setBoard(newBoard)
-    // dispatch(updateCurrentActiveBoard(newBoard))
+    const newBoard = cloneDeep(board)
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+    dispatch(updateCurrentActiveBoard(newBoard))
+
     // Gọi API ở đây ...
     // Đóng trạng thái thêm Column mới & Clean Input
     toggleOpenNewColumnForm()
@@ -71,10 +70,7 @@ function ListColumns({ columns }) {
         overflowY: 'hidden',
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
-        {columns?.map(column =>
-          <Column key={column._id} column={column}/>
-        )}
-
+        {columns?.map(column => <Column key={column._id} column={column}/>)}
         {/* Button add  */}
         {!openNewColumnForm
           ? <Box onClick={toggleOpenNewColumnForm} sx={{

@@ -21,7 +21,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 import { useConfirm } from 'material-ui-confirm'
 import { createNewCardAPI } from '~/apis'
-// import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -80,14 +80,15 @@ function Column({ column }) {
 
     // Đang fix không biết bị lỗi UI hay lỗi data nữa :((
     // Cập nhât state board (Card)
+    const newBoard = cloneDeep(board)
     // const newBoard = { ...board }
-    // const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
-    // if (columnToUpdate) {
-    //   columnToUpdate.cards.push(createdCard)
-    //   columnToUpdate.cardOrderIds.push(createdCard._id)
-    // }
-    // // setBoard(newBoard)
-    // dispatch(updateCurrentActiveBoard(newBoard))
+    const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+    if (columnToUpdate) {
+      columnToUpdate.cards.push(createdCard)
+      columnToUpdate.cardOrderIds.push(createdCard._id)
+    }
+    dispatch(updateCurrentActiveBoard(newBoard))
+
     // Đóng trạng thái thêm Column mới & Clean Input
     toggleOpenNewCardForm()
     setNewCardTitle('')
